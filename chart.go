@@ -180,6 +180,7 @@ func (c Chart) getRanges() (xrange, yrange, yrangeAlt Range) {
 
 	// note: a possible future optimization is to not scan the series values if
 	// all axis are represented by either custom ticks or custom ranges.
+	vxInterval := 0.
 	for _, s := range c.Series {
 		if !s.GetStyle().Hidden {
 			seriesAxis := s.GetYAxis()
@@ -206,8 +207,15 @@ func (c Chart) getRanges() (xrange, yrange, yrangeAlt Range) {
 				}
 			} else if vp, isValuesProvider := s.(ValuesProvider); isValuesProvider {
 				seriesLength := vp.Len()
+				sameInterval := 0
+				vx1, vx2 := 0., 0.
 				for index := 0; index < seriesLength; index++ {
 					vx, vy := vp.GetValues(index)
+					if index >= 2 && vx1-vx2 == vx-vx1 {
+						sameInterval++
+						vxInterval = vx1 - vx2
+					}
+					vx2, vx1 = vx1, vx
 
 					minx = math.Min(minx, vx)
 					maxx = math.Max(maxx, vx)
@@ -221,12 +229,15 @@ func (c Chart) getRanges() (xrange, yrange, yrangeAlt Range) {
 						seriesMappedToSecondaryAxis = true
 					}
 				}
+				if sameInterval < seriesLength/2 {
+					vxInterval = 0.
+				}
 			}
 		}
 	}
 
 	if c.XAxis.Range == nil {
-		xrange = &ContinuousRange{}
+		xrange = &ContinuousRange{Interval: vxInterval}
 	} else {
 		xrange = c.XAxis.Range
 	}

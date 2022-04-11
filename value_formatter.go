@@ -9,35 +9,50 @@ import (
 // ValueFormatter is a function that takes a value and produces a string.
 type ValueFormatter func(v interface{}) string
 
+// DateValueFormatter is a ValueFormatter for timestamps.
+func DateValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultDateFormat)
+}
+
+// DateHourValueFormatter is a ValueFormatter for timestamps.
+func DateHourValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultDateHourFormat)
+}
+
+// DateMinuteValueFormatter is a ValueFormatter for timestamps.
+func DateMinuteValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultDateMinuteFormat)
+}
+
+// DateTimeValueFormatter is a ValueFormatter for timestamps.
+func DateTimeValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultDateTimeFormat)
+}
+
+// HourValueFormatter is a ValueFormatter for timestamps.
+func HourValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultHourFormat)
+}
+
+// MinuteValueFormatter is a ValueFormatter for timestamps.
+func MinuteValueFormatter(v interface{}) string {
+	return FormatTime(v, DefaultMinuteFormat)
+}
+
 // TimeValueFormatter is a ValueFormatter for timestamps.
 func TimeValueFormatter(v interface{}) string {
-	return formatTime(v, DefaultDateFormat)
-}
-
-// TimeHourValueFormatter is a ValueFormatter for timestamps.
-func TimeHourValueFormatter(v interface{}) string {
-	return formatTime(v, DefaultDateHourFormat)
-}
-
-// TimeMinuteValueFormatter is a ValueFormatter for timestamps.
-func TimeMinuteValueFormatter(v interface{}) string {
-	return formatTime(v, DefaultDateMinuteFormat)
-}
-
-// TimeDateValueFormatter is a ValueFormatter for timestamps.
-func TimeDateValueFormatter(v interface{}) string {
-	return formatTime(v, "2006-01-02")
+	return FormatTime(v, DefaultTimeFormat)
 }
 
 // TimeValueFormatterWithFormat returns a time formatter with a given format.
 func TimeValueFormatterWithFormat(format string) ValueFormatter {
 	return func(v interface{}) string {
-		return formatTime(v, format)
+		return FormatTime(v, format)
 	}
 }
 
 // TimeValueFormatterWithFormat is a ValueFormatter for timestamps with a given format.
-func formatTime(v interface{}, dateFormat string) string {
+func FormatTime(v interface{}, dateFormat string) string {
 	if typed, isTyped := v.(time.Time); isTyped {
 		return typed.Format(dateFormat)
 	}

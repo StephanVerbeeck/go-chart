@@ -54,16 +54,19 @@ const (
 	DefaultTickCountSanityCheck = 1 << 10 //1024
 
 	// DefaultMinimumTickHorizontalSpacing is the minimum distance between horizontal ticks.
-	DefaultMinimumTickHorizontalSpacing = 20
+	DefaultMinimumTickHorizontalSpacing = 5
 	// DefaultMinimumTickVerticalSpacing is the minimum distance between vertical ticks.
-	DefaultMinimumTickVerticalSpacing = 20
+	DefaultMinimumTickVerticalSpacing = 5
 
 	// DefaultDateFormat is the default date format.
-	DefaultDateFormat = "2006-01-02"
-	// DefaultDateHourFormat is the date format for hour timestamp formats.
-	DefaultDateHourFormat = "01-02 3PM"
-	// DefaultDateMinuteFormat is the date format for minute range timestamp formats.
-	DefaultDateMinuteFormat = "01-02 3:04PM"
+	DefaultDateFormat       = "Mon 2006-01-02"
+	DefaultDateHourFormat   = "Mon 2006-01-02 15"
+	DefaultDateMinuteFormat = "Mon 2006-01-02 15:04"
+	DefaultDateTimeFormat   = "Mon 2006-01-02 15:04:05"
+	DefaultHourFormat       = "15"
+	DefaultMinuteFormat     = "15:04"
+	DefaultTimeFormat       = "15:04:05"
+
 	// DefaultFloatFormat is the default float format.
 	DefaultFloatFormat = "%.2f"
 	// DefaultPercentValueFormat is the default percent format.

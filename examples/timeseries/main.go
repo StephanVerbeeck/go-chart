@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	chart "github.com/wcharczuk/go-chart/v2"
+	chart "github.com/StephanVerbeeck/go-chart/v2"
 )
 
 func drawChart(res http.ResponseWriter, req *http.Request) {
@@ -43,7 +43,7 @@ func drawCustomChart(res http.ResponseWriter, req *http.Request) {
 	*/
 	graph := chart.Chart{
 		XAxis: chart.XAxis{
-			ValueFormatter: chart.TimeHourValueFormatter,
+			ValueFormatter: chart.DateHourValueFormatter,
 		},
 		Series: []chart.Series{
 			chart.TimeSeries{

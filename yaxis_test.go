@@ -3,7 +3,7 @@ package chart
 import (
 	"testing"
 
-	"github.com/wcharczuk/go-chart/v2/testutil"
+	"github.com/StephanVerbeeck/go-chart/v2/testutil"
 )
 
 func TestYAxisGetTicks(t *testing.T) {
@@ -16,14 +16,14 @@ func TestYAxisGetTicks(t *testing.T) {
 	testutil.AssertNil(t, err)
 
 	ya := YAxis{}
-	yr := &ContinuousRange{Min: 10, Max: 100, Domain: 1024}
+	yr := &ContinuousRange{Interval: 1, Min: 10, Max: 100, Domain: 1024}
 	styleDefaults := Style{
 		Font:     f,
 		FontSize: 10.0,
 	}
 	vf := FloatValueFormatter
 	ticks := ya.GetTicks(r, yr, styleDefaults, vf)
-	testutil.AssertLen(t, ticks, 32)
+	testutil.AssertLen(t, ticks, 46)
 }
 
 func TestYAxisGetTicksWithUserDefaults(t *testing.T) {

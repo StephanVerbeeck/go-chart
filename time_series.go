@@ -62,7 +62,7 @@ func (ts TimeSeries) GetLastValues() (x, y float64) {
 
 // GetValueFormatters returns value formatter defaults for the series.
 func (ts TimeSeries) GetValueFormatters() (x, y ValueFormatter) {
-	x = TimeValueFormatter
+	x = DateValueFormatter
 	y = FloatValueFormatter
 	return
 }

@@ -3,7 +3,7 @@ package chart
 import (
 	"testing"
 
-	"github.com/wcharczuk/go-chart/v2/testutil"
+	"github.com/StephanVerbeeck/go-chart/v2/testutil"
 )
 
 func TestGenerateContinuousTicks(t *testing.T) {
@@ -17,9 +17,10 @@ func TestGenerateContinuousTicks(t *testing.T) {
 	r.SetFont(f)
 
 	ra := &ContinuousRange{
-		Min:    0.0,
-		Max:    10.0,
-		Domain: 256,
+		Interval: 1,
+		Min:      0,
+		Max:      10,
+		Domain:   256,
 	}
 
 	vf := FloatValueFormatter
@@ -42,8 +43,9 @@ func TestGenerateContinuousTicksDescending(t *testing.T) {
 	r.SetFont(f)
 
 	ra := &ContinuousRange{
-		Min:        0.0,
-		Max:        10.0,
+		Interval:   1,
+		Min:        0,
+		Max:        10,
 		Domain:     256,
 		Descending: true,
 	}

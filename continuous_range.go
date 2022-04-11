@@ -9,6 +9,7 @@ import (
 type ContinuousRange struct {
 	Min        float64
 	Max        float64
+	Interval   float64
 	Domain     int
 	Descending bool
 }
@@ -48,6 +49,11 @@ func (r *ContinuousRange) SetMax(max float64) {
 // GetDelta returns the difference between the min and max value.
 func (r ContinuousRange) GetDelta() float64 {
 	return r.Max - r.Min
+}
+
+// GetInterval returns the suggested value difference between labels/ticks
+func (r ContinuousRange) GetInterval() float64 {
+	return r.Interval
 }
 
 // GetDomain returns the range domain.

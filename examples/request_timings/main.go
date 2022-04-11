@@ -9,7 +9,7 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/wcharczuk/go-chart/v2"
+	"github.com/StephanVerbeeck/go-chart/v2"
 )
 
 func main() {
@@ -108,7 +108,7 @@ func drawChart(log chart.Logger) http.HandlerFunc {
 				},
 			},
 			XAxis: chart.XAxis{
-				ValueFormatter: chart.TimeHourValueFormatter,
+				ValueFormatter: chart.DateHourValueFormatter,
 				GridMajorStyle: chart.Style{
 					StrokeColor: chart.ColorAlternateGray,
 					StrokeWidth: 1.0,

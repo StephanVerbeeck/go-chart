@@ -4,7 +4,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/wcharczuk/go-chart/v2/testutil"
+	"github.com/StephanVerbeeck/go-chart/v2/testutil"
 )
 
 func TestTimeValueFormatterWithFormat(t *testing.T) {
@@ -14,15 +14,15 @@ func TestTimeValueFormatterWithFormat(t *testing.T) {
 	di := TimeToFloat64(d)
 	df := float64(di)
 
-	s := formatTime(d, DefaultDateFormat)
-	si := formatTime(di, DefaultDateFormat)
-	sf := formatTime(df, DefaultDateFormat)
+	s := FormatTime(d, DefaultDateFormat)
+	si := FormatTime(di, DefaultDateFormat)
+	sf := FormatTime(df, DefaultDateFormat)
 	testutil.AssertEqual(t, s, si)
 	testutil.AssertEqual(t, s, sf)
 
-	sd := TimeValueFormatter(d)
-	sdi := TimeValueFormatter(di)
-	sdf := TimeValueFormatter(df)
+	sd := DateValueFormatter(d)
+	sdi := DateValueFormatter(di)
+	sdf := DateValueFormatter(df)
 	testutil.AssertEqual(t, s, sd)
 	testutil.AssertEqual(t, s, sdi)
 	testutil.AssertEqual(t, s, sdf)

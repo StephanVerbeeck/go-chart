@@ -31,9 +31,11 @@ type Range interface {
 	GetMax() float64
 	SetMax(max float64)
 
-	GetDelta() float64
+	GetDelta() float64 // size in values (between max and min value of range)
 
-	GetDomain() int
+	GetInterval() float64 // suggested value difference between labels/ticks
+
+	GetDomain() int // size in pixels (visual room available for drawing the range)
 	SetDomain(domain int)
 
 	IsDescending() bool

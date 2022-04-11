@@ -7,7 +7,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/wcharczuk/go-chart/v2"
+	"github.com/StephanVerbeeck/go-chart/v2"
 )
 
 func main() {
@@ -33,7 +33,7 @@ func main() {
 
 		XAxis: chart.XAxis{
 			Name:           "The XAxis",
-			ValueFormatter: chart.TimeMinuteValueFormatter, //TimeHourValueFormatter,
+			ValueFormatter: chart.DateMinuteValueFormatter, //TimeHourValueFormatter,
 		},
 
 		YAxis: chart.YAxis{

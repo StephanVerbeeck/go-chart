@@ -53,18 +53,6 @@ func GenerateContinuousTicks(r Renderer, ra Range, isVertical bool, style Style,
 	var ticks []Tick
 	min, max := ra.GetMin(), ra.GetMax()
 
-	if ra.IsDescending() {
-		ticks = append(ticks, Tick{
-			Value: max,
-			Label: vf(max),
-		})
-	} else {
-		ticks = append(ticks, Tick{
-			Value: min,
-			Label: vf(min),
-		})
-	}
-
 	minLabel := vf(min)
 	style.GetTextOptions().WriteToRenderer(r)
 	labelBox := r.MeasureText(minLabel)
@@ -76,38 +64,50 @@ func GenerateContinuousTicks(r Renderer, ra Range, isVertical bool, style Style,
 		tickSize = float64(labelBox.Width() + DefaultMinimumTickHorizontalSpacing)
 	}
 
-	domain := float64(ra.GetDomain())
-	domainRemainder := domain - (tickSize * 2)
-	intermediateTickCount := int(math.Floor(float64(domainRemainder) / float64(tickSize)))
+	valueInterval := ra.GetInterval()                          // suggested value step per drawn tick
+	valueRange := math.Abs(max - min)                          // difference in value of the first and last tick
+	visualRange := float64(ra.GetDomain())                     // visual size available for drawing
+	tickCount := int(float64(visualRange) / float64(tickSize)) // max number of ticks that fit visually
+	valueStep := valueRange / float64(tickCount)
 
-	rangeDelta := math.Abs(max - min)
-	tickStep := rangeDelta / float64(intermediateTickCount)
+	if valueInterval != 0 { // is a value interval per tick suggested for this graph?
+		for _, intervalsPerTick := range []float64{1, 2, 5, 10, 20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 500000, 1000000} {
+			tickCountWithInterval := int(valueRange / (valueInterval * intervalsPerTick))
+			if tickCountWithInterval <= tickCount { // is there enough room to draw this amount of ticks
+				tickCount = tickCountWithInterval            // set tickCount that complies with suggested value interval per tick
+				valueStep = valueInterval * intervalsPerTick // adapt values change per tick for the new tick count
+				break
+			}
+		}
+	}
 
-	roundTo := GetRoundToForDelta(rangeDelta) / 10
-	intermediateTickCount = MinInt(intermediateTickCount, DefaultTickCountSanityCheck)
+	if tickCount > DefaultTickCountSanityCheck {
+		tickCount = DefaultTickCountSanityCheck
+	} else if tickCount < 1 {
+		tickCount = 1
+		valueStep = valueRange
+	}
 
-	for x := 1; x < intermediateTickCount; x++ {
+	// add ticks
+	for x := 0; x <= tickCount; x++ {
 		var tickValue float64
-		if ra.IsDescending() {
-			tickValue = max - RoundUp(tickStep*float64(x), roundTo)
-		} else {
-			tickValue = min + RoundUp(tickStep*float64(x), roundTo)
+		if x == 0 || x == tickCount-1 || valueInterval != 0 {
+			if ra.IsDescending() {
+				tickValue = max - valueStep*float64(x)
+			} else {
+				tickValue = min + valueStep*float64(x)
+			}
+		} else { // round tick value
+			roundTo := GetRoundToForDelta(valueRange) / 10
+			if ra.IsDescending() {
+				tickValue = max - RoundUp(valueStep*float64(x), roundTo)
+			} else {
+				tickValue = min + RoundUp(valueStep*float64(x), roundTo)
+			}
 		}
 		ticks = append(ticks, Tick{
 			Value: tickValue,
 			Label: vf(tickValue),
-		})
-	}
-
-	if ra.IsDescending() {
-		ticks = append(ticks, Tick{
-			Value: min,
-			Label: vf(min),
-		})
-	} else {
-		ticks = append(ticks, Tick{
-			Value: max,
-			Label: vf(max),
 		})
 	}
 
